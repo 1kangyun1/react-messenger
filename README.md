@@ -1,6 +1,6 @@
 # React Messenger App
 
-Realtime chat app front-end with websockets for using Node.js, Express backend and Socket.io
+Realtime chat app front-end with websockets for using Node.js, Express back-end and Socket.io
 
 ## usage
 ```
