@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import socketIOClient from "socket.io-client";
+import socket from '../service/socket';
 
 export class Chatroom extends Component {
-  ENDPOINT = "http://localhost:9000/"
-  socket = socketIOClient(this.ENDPOINT);
 
   state = {
     //counter provides unique id for map function in chatLog
@@ -14,13 +12,13 @@ export class Chatroom extends Component {
   }
 
   componentDidMount(){
-    this.socket.emit('username', {username: this.props.username});
+    socket.emit('username', {username: this.props.username});
 
-    this.socket.on('message', msg => {
+    socket.on('message', msg => {
       this.setState({ counter: this.state.counter+1, msgLog: [...this.state.msgLog, {id: this.state.counter, msg: msg}] });
     })
 
-    this.socket.on('userList', list => {
+    socket.on('userList', list => {
       this.setState({userList: list});
     })
   }
@@ -33,7 +31,7 @@ export class Chatroom extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.socket.emit('clientMessage', {name:this.props.username, text:this.state.text});
+    socket.emit('clientMessage', {name:this.props.username, text:this.state.text});
 
     this.setState({ text: "" });
   }
