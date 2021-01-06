@@ -8,18 +8,24 @@ export class Chatroom extends Component {
     counter: 1,
     text: "",
     msgLog: [],
-    userList: []
+    activeUser: []
   }
 
   componentDidMount(){
+
+    socket.io.on('error', function(err) {
+      // handle server error here
+      console.log('Error connecting to server');
+    });
+
     socket.emit('username', {username: this.props.username});
 
     socket.on('message', msg => {
       this.setState({ counter: this.state.counter+1, msgLog: [...this.state.msgLog, {id: this.state.counter, msg: msg}] });
     })
 
-    socket.on('userList', list => {
-      this.setState({userList: list});
+    socket.on('activeUser', list => {
+      this.setState({activeUser: list});
     })
   }
 
