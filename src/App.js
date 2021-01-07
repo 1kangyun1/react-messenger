@@ -11,7 +11,7 @@ function App() {
   return (
     <React.Suspense fallback={<p>Loading...</p>}>
       <Router>
-        <Route exact path='/' render={(props) => (
+        <Route exact path='/react-messenger' render={(props) => (
           <Login setUsername={setUsername}/>
         )} />
         <Route exact path='/chatroom' render={props => (
