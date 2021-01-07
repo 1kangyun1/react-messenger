@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import socket from '../service/socket';
 
+import UserList from './UserList';
+
 export class Chatroom extends Component {
 
   state = {
@@ -48,6 +50,7 @@ export class Chatroom extends Component {
     return (
       <div style={{ textAlign:'center' }}>
         <h1>ChatRoom</h1>
+        <UserList activeUser={this.activeUser} />
         {this.chatLog()}
         <form onSubmit={this.onSubmit}>
         <input type="text" placeholder="Please enter your messages ..." value={this.state.text} onChange={this.onChange}/>
