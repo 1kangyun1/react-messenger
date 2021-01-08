@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import socket from '../service/socket';
 
+import './css/ChatRoom.css';
+
 import UserList from './UserList';
+import ChatBox from './ChatBox';
 
 export class Chatroom extends Component {
 
   state = {
     //counter provides unique id for map function in chatLog
     counter: 1,
-    text: "",
+    input: "",
     msgLog: [],
     activeUser: []
   }
@@ -22,8 +25,9 @@ export class Chatroom extends Component {
 
     socket.emit('username', {username: this.props.username});
 
-    socket.on('message', msg => {
-      this.setState({ counter: this.state.counter+1, msgLog: [...this.state.msgLog, {id: this.state.counter, msg: msg}] });
+    socket.on('message', ({username, text, time}) => {
+      this.setState({ counter: this.state.counter+1, msgLog: [...this.state.msgLog, {id: this.state.counter, 
+        username: username, text: text, time:time}] });
     })
 
     socket.on('activeUser', list => {
@@ -31,30 +35,30 @@ export class Chatroom extends Component {
     })
   }
 
-  chatLog = () => {
-    return <div className='chatBox'>{this.state.msgLog.map((log) => {
-      return <p key={log.id}>{log.msg}</p>
-    })}</div>
-  }
-
   onSubmit = (e) => {
     e.preventDefault();
-    socket.emit('clientMessage', {name:this.props.username, text:this.state.text});
+    socket.emit('clientMessage', {name:this.props.username, text:this.state.input});
 
-    this.setState({ text: "" });
+    this.setState({ input: "" });
   }
 
-  onChange = (e) => this.setState({ text: e.target.value });
+  onChange = (e) => this.setState({ input: e.target.value });
 
   render() {
     return (
-      <div style={{ textAlign:'center' }}>
-        <h1>ChatRoom</h1>
-        <UserList activeUser={this.activeUser} />
-        {this.chatLog()}
-        <form onSubmit={this.onSubmit}>
-        <input type="text" placeholder="Please enter your messages ..." value={this.state.text} onChange={this.onChange}/>
-        </form>
+      <div className='chat-container'>
+        <header className='chat-header'>
+          <h1>ChatRoom</h1>
+        </header>
+        <main className='chat-main'>
+          <UserList activeUser={this.state.activeUser} />
+          <ChatBox msgLog={this.state.msgLog} />
+        </main>
+        <div className='chat-form-container'>
+          <form onSubmit={this.onSubmit}>
+            <input type="text" placeholder="Please enter your messages ..." value={this.state.input} onChange={this.onChange}/>
+          </form>
+        </div>
       </div>
     )
   }

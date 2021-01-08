@@ -21,13 +21,14 @@ export class Login extends Component {
 
   render() {
     return (
-      <div style={{ textAlign:'center' }}>
-        <div>
-          <h1>ChatRoom</h1>
+      <div className='join-container' >
+        <header className='join-header'>ChatRoom</header>
+        <main className='join-main' >
           <form onSubmit={this.onSubmit}>
             <input type="text" placeholder="Please Enter Your Username ..." value={this.state.username} onChange={this.onChange}/>
+            <button type='submit' className='btn'>Join Chat</button>
           </form>
-        </div>
+        </main>
       </div>
     )
   }
