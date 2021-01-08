@@ -2,10 +2,6 @@
 
 Realtime chat app front-end with websockets for using Node.js, Express back-end and Socket.io
 
-## usage
-```
-npm install
-npm start
+It is currently deployed on Github website.
 
-Go to localhost:3000
-```
+You can test the application at https://1kangyun1.github.com/react-messenger
